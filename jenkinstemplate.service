@@ -1,0 +1,12 @@
+<% mapping.eachWithIndex { v, i -> %>
+[Unit]
+Description=${v.server}
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=${v.path}${v.script}
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target<% } %>

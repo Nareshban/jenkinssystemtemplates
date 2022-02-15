@@ -1,0 +1,16 @@
+def createSystemdServiceFiles(templateFile,systemdPath,ENV_NAME){
+    def systemsServices = [
+        'dataserver' :    [  path : "/env1/scripts/",    script  : "dataserver.sh" ],
+        'engineserver' :    [  path : "/env1/scripts/",    script  : "engineserver.sh" ]
+    ]
+
+    def f = new File(templateFile)
+    def engine = new groovy.text.GStringTemplateEngine()
+    systemsServices.each(){key,value ->
+      def template = engine.createTemplate(f).make(value)
+      new File(systemdPath,"$ENV_NAME-${key}.service") << template.toString()
+    }
+    
+}
+
+createSystemdServiceFiles('jenkinstemplate2.service','/home/nareshb/SCRIPT/groovy','dev')
